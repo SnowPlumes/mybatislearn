@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的 
+	例如namespace="me.gacl.mapping.userMapper"就是me.gacl.mapping(包名)+userMapper(userMapper.xml文件去除后缀) -->
+<mapper namespace="com.lv.mapping.playerMapper">
+	<resultMap type="com.lv.pojo.Player" id="BaseResultMap">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="score" property="score" jdbcType="INTEGER" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<collection property="questions" javaType="ArrayList" column="id" ofType="com.lv.pojo.Question" select="getQuestions"/>
+		<collection property="answers" javaType="ArrayList" column="id" ofType="com.lv.pojo.Answer" select="getAnswers"/>
+	</resultMap>
+
+	<select id="getAllPlayers" resultMap="BaseResultMap">
+		select * from `player`
+	</select>
+
+	<select id="getPlayerById" parameterType="int" resultMap="BaseResultMap">
+		select
+		* from `player` where id = #{id}
+	</select>
+
+	<insert id="insertPlayer" parameterType="com.lv.pojo.Player" keyProperty="id" useGeneratedKeys="true">
+		insert into `player`(name, score, username, password) values(#{name}, #{score}, #{username}, #{password})
+	</insert>
+
+	<update id="updatePlayer" parameterType="com.lv.pojo.Player">
+		update `player` set name = #{name}, score = #{score}, username = #{username}, password = #{password} where id = #{id}
+	</update>
+
+	<delete id="deletePlayer" parameterType="com.lv.pojo.Player">
+		delete from `player` where id = #{id}
+	</delete>
+
+	<select id="getQuestions" parameterType="int" resultType="com.lv.pojo.Question">
+		select * from question where player_id = #{id}
+	</select>
+	
+	<select id="getAnswers" parameterType="int" resultType="com.lv.pojo.Answer">
+		select * from answer where player_id = #{id}
+	</select>
+
+</mapper>

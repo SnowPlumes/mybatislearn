@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<!-- 配置数据库连接信息 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url"
+					value="jdbc:mysql://localhost:3306/busuper?useSSL=false" />
+				<property name="username" value="lv" />
+				<property name="password" value="123456" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<mappers>
+		<!-- 注册playerMapper.xml文件， playerMapper.xml位于com.lv.mapping这个包下，所以resource写成com/lv/mapping/playerMapper.xml -->
+		<mapper resource="com/lv/mapping/playerMapper.xml" />
+		<mapper resource="com/lv/mapping/questionMapper.xml" />
+	</mappers>
+</configuration>
